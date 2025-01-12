@@ -1,8 +1,13 @@
+import { db } from "@/db";
 
-export default function Home() {
+export default async function Home() {
+  const items = await db.query.users.findMany();
+
   return (
     <>
-    DevMeet
+    {items.map((item) => {
+      return <div key={item.id}>{item.name}</div>
+    })}
     </>
   );
 }
