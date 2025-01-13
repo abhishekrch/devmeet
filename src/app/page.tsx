@@ -1,7 +1,9 @@
 import { db } from "@/db";
+import { users } from "@/db/schema";
+
 
 export default async function Home() {
-  const items = await db.query.users.findMany();
+  const items = await db.select().from(users);
 
   return (
     <>
