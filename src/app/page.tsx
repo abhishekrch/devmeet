@@ -1,15 +1,14 @@
 import { db } from "@/db";
-import { users } from "@/db/schema";
-
+import { Room } from "@/db/schema";
 
 export default async function Home() {
-  const items = await db.select().from(users);
+  const rooms = await db.query.room.findMany();
 
   return (
-    <>
-    {items.map((item) => {
-      return <div key={item.id}>{item.name}</div>
-    })}
-    </>
+    <div className="flex min-h-screen flex-col items-center justify-between p-24">
+      {rooms.map((item: Room) => {
+        return <div key={item.name}>{item.name}</div>;
+      })}    
+    </div>
   );
 }

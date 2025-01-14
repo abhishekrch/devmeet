@@ -1,3 +1,4 @@
+import { sql } from "drizzle-orm";
 import {
   boolean,
   timestamp,
@@ -5,6 +6,7 @@ import {
   text,
   primaryKey,
   integer,
+  uuid,
 } from "drizzle-orm/pg-core";
 import type { AdapterAccount } from "next-auth/adapters";
 
@@ -68,37 +70,18 @@ export const verificationTokens = pgTable(
   ]
 );
 
-export const authenticators = pgTable(
-  "authenticator",
-  {
-    credentialID: text("credentialID").notNull().unique(),
-    userId: text("userId")
-      .notNull()
-      .references(() => users.id, { onDelete: "cascade" }),
-    providerAccountId: text("providerAccountId").notNull(),
-    credentialPublicKey: text("credentialPublicKey").notNull(),
-    counter: integer("counter").notNull(),
-    credentialDeviceType: text("credentialDeviceType").notNull(),
-    credentialBackedUp: boolean("credentialBackedUp").notNull(),
-    transports: text("transports"),
-  },
-  (authenticator) => [
-    {
-      compositePK: primaryKey({
-        columns: [authenticator.userId, authenticator.credentialID],
-      }),
-    },
-  ]
-);
-
 export const room = pgTable("room", {
+  id: uuid("id")
+    .default(sql`gen_random_uuid()`)
+    .notNull()
+    .primaryKey(),
   userId: text("userId")
-  .notNull()
-  .references(() => users.id, { onDelete: 'cascade'}),
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   description: text("description"),
   language: text("language").notNull(),
-  githubRepo: text("githubRepo")
-})
+  githubRepo: text("githubRepo"),
+});
 
 export type Room = typeof room.$inferSelect;

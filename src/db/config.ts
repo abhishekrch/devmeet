@@ -1,10 +1,6 @@
-import postgres from 'postgres';
 import { drizzle } from 'drizzle-orm/postgres-js';
-import * as schema from "./schema";
-
-declare global {
-  var db: ReturnType<typeof drizzle> | undefined;
-}
+import postgres from 'postgres';
+import * as schema from './schema';
 
 if (!process.env.DATABASE_URL) {
   throw new Error('DATABASE_URL is missing');
@@ -12,9 +8,7 @@ if (!process.env.DATABASE_URL) {
 
 const queryClient = postgres(process.env.DATABASE_URL);
 
-export const db = drizzle(queryClient, {
-  schema,
-});
+const db = drizzle(queryClient, { schema });
 
 export const getDb = () => {
   if (process.env.NODE_ENV === 'production') {
@@ -25,4 +19,8 @@ export const getDb = () => {
     global.db = db;
   }
   return global.db;
-}; 
+};
+
+declare global {
+  var db: ReturnType<typeof drizzle<typeof schema>> | undefined;
+} 
