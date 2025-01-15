@@ -64,7 +64,7 @@ function AccountDropdown() {
 }
 
 export function Header() {
-  const session = useSession();
+  // const session = useSession();
   return (
     <header className="bg-gray-100 py-2 dark:bg-gray-900 z-10 relative">
       <div className="container mx-auto flex justify-between items-center">

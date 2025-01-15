@@ -1,14 +1,62 @@
-import { db } from "@/db";
+import { Button } from "@/components/ui/button";
 import { Room } from "@/db/schema";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Github } from "lucide-react";
+import { getRooms } from "./data-access/rooms";
+
+function RoomCard({ room }: { room: Room }) {
+  return (
+    <Card className="h-full">
+      <CardHeader>
+        <CardTitle>{room.name}</CardTitle>
+        <CardDescription>{room.description}</CardDescription>
+      </CardHeader>
+      <CardContent className="flex-grow">
+        {room.githubRepo && (
+          <Link
+            href={room.githubRepo}
+            className="flex items-center gap-2"
+            target="_blank"
+            rel="noopender noreferrer"
+          >
+            <Github />
+            Github Project
+          </Link>
+        )}
+      </CardContent>
+      <CardFooter className="flex justify-end mt-auto">
+        <Button asChild>
+          <Link href={`/rooms/${room.id}`}>Join Room</Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}
 
 export default async function Home() {
-  const rooms = await db.query.room.findMany();
+  const rooms = await getRooms();
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      {rooms.map((item: Room) => {
-        return <div key={item.name}>{item.name}</div>;
-      })}    
-    </div>
+    <main className="min-h-screen p-16">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-4xl"> Find Dev Rooms</h1>
+        <Button asChild>
+          <Link href="/create-room">Create Room</Link>
+        </Button>
+      </div>
+      <div className="grid md:grid-cols-3 sm:grid-col-span-1 gap-4">
+        {rooms.map((room) => {
+          return <RoomCard key={room.id} room={room} />;
+        })}
+      </div>
+    </main>
   );
 }
