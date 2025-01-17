@@ -2,6 +2,7 @@ import { getRoom } from "@/app/data-access/rooms";
 import { Github } from "lucide-react";
 import Link from "next/link";
 import { splitTags, TagsList } from "@/components/tags-list";
+import { DevMeet } from "./video-player";
 
 export default async function RoomPage({
 params,
@@ -22,7 +23,7 @@ params,
           className="rounded-lg border bg-card text-card-foreground 
                 shadow-sm p-12"
         >
-          Video Player
+          <DevMeet room={room} />
         </div>
       </div>
 

@@ -16,14 +16,14 @@ import Link from "next/link";
 
 function AccountDropdown() {
   const session = useSession();
-  const isLoggedIn = !!session.data;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
           variant={"link"}
-          className="flex items-center space-x-2 p-2 hover:bg-gray-200 dark:hover:bg-gray-800 rounded-lg"
+          className="flex items-center space-x-2 p-2 hover:bg-gray-200
+           dark:hover:bg-gray-800 rounded-lg"
         >
           {session.data?.user?.image ? (
             <Image
@@ -48,23 +48,19 @@ function AccountDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuSeparator />
-        {isLoggedIn ? (
-          <DropdownMenuItem onClick={() => signOut()}>
+          <DropdownMenuItem onClick={() => signOut({
+            callbackUrl: "/",
+          })}>
             <LogOutIcon className="mr-2" />
             Sign Out
           </DropdownMenuItem>
-        ) : (
-          <DropdownMenuItem onClick={() => signIn("google")}>
-            <LogInIcon className="mr-2" /> Sign In
-          </DropdownMenuItem>
-        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
 }
 
 export function Header() {
-  // const session = useSession();
+  const session = useSession();
   return (
     <header className="bg-gray-100 py-2 dark:bg-gray-900 z-10 relative">
       <div className="container mx-auto flex justify-between items-center">
@@ -73,8 +69,15 @@ export function Header() {
             DevMeet
           </Link>
         </div>
+
         <div className="flex items-center space-x-6">
-          <AccountDropdown />
+          {session.data && <AccountDropdown />}
+          {!session.data && (
+            <Button onClick={() => signIn()} variant="link">
+              <LogInIcon className="mr-2" /> 
+              Sign In
+            </Button>
+          )}
           <ModeToggle />
         </div>
       </div>
