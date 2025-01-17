@@ -21,7 +21,7 @@ const formSchema = z.object({
   name: z.string().min(2).max(50),
   description: z.string().min(2).max(200),
   githubRepo: z.string().min(5).max(100),
-  language: z.string().min(3).max(50),
+  tags: z.string().min(3).max(50),
 
 });
 
@@ -34,7 +34,7 @@ export function CreateRoomForm() {
       name: "",
       description: "",
       githubRepo: "",
-      language: "",
+      tags: "",
     },
   });
 
@@ -53,7 +53,7 @@ export function CreateRoomForm() {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="DevMeet" />
               </FormControl>
               <FormDescription>
                 This is your public room name
@@ -70,7 +70,7 @@ export function CreateRoomForm() {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="I'm working on a side project, come join me" />
               </FormControl>
               <FormDescription>
                 Describe your room
@@ -87,7 +87,7 @@ export function CreateRoomForm() {
             <FormItem>
               <FormLabel>Github Repo</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="https://github.com/abhishekrch"/>
               </FormControl>
               <FormDescription>
                 Please put a link to project you are working on
@@ -99,15 +99,16 @@ export function CreateRoomForm() {
 
         <FormField
           control={form.control}
-          name="language"
+          name="tags"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Programming Languages</FormLabel>
+              <FormLabel>Tags</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input {...field} placeholder="javascript, nextjs, solidity"/>
               </FormControl>
               <FormDescription>
-                List the primary programming language you are working
+                List your programming languages, frameworks, libraries 
+                so people people can find your content
               </FormDescription>
               <FormMessage />
             </FormItem>

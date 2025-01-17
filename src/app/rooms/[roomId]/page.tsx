@@ -1,7 +1,7 @@
 import { getRoom } from "@/app/data-access/rooms";
 import { Github } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import { splitTags, TagsList } from "@/components/tags-list";
 
 export default async function RoomPage({
 params,
@@ -32,8 +32,6 @@ params,
                 shadow-sm p-4 flex flex-col gap-4"
         >
           <h1 className="text-base">{room?.name}</h1>
-          <p className="text-base text-gray-600">{room?.description}</p>
-          <Badge className="w-fit">{room.language}</Badge>
           {room.githubRepo && (
             <Link
               href={room.githubRepo}
@@ -45,6 +43,8 @@ params,
               Github Project
             </Link>
           )}
+          <p className="text-base text-gray-600">{room?.description}</p>
+          <TagsList tags={splitTags(room.tags) } />
         </div>
       </div>
     </div>
