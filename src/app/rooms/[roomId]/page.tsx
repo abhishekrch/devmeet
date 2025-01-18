@@ -1,8 +1,9 @@
 import { getRoom } from "@/app/data-access/rooms";
 import { Github } from "lucide-react";
 import Link from "next/link";
-import { splitTags, TagsList } from "@/components/tags-list";
+import { TagsList } from "@/components/tags-list";
 import { DevMeet } from "./video-player";
+import { splitTags } from "@/lib/utils";
 
 export default async function RoomPage({
 params,
