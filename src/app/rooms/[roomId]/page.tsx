@@ -4,6 +4,7 @@ import Link from "next/link";
 import { TagsList } from "@/components/tags-list";
 import { DevMeet } from "./video-player";
 import { splitTags } from "@/lib/utils";
+import { unstable_noStore } from "next/cache";
 
 export default async function RoomPage({
 params,
@@ -11,6 +12,7 @@ params,
   params: { roomId: string };
 }) {
   const roomId = params.roomId;
+  unstable_noStore();
   const room = await getRoom(roomId);
 
   if (!room) {
