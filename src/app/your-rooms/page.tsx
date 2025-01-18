@@ -1,27 +1,20 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { getRooms } from "../data-access/rooms";
-import { SearchBar } from "./search-bar";
+import { getUserRooms } from "../../data-access/rooms";
 import { RoomCard } from "@/components/room-card";
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: { search: string };
-}) {
-  const rooms = await getRooms(searchParams.search);
+export default async function YourRoomsPage() {
+  const rooms = await getUserRooms();
 
   return (
     <main className="min-h-screen p-16">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl"> Find Dev Rooms</h1>
+        <h1 className="text-4xl"> Your Rooms</h1>
         <Button asChild>
           <Link href="/create-room">Create Room</Link>
         </Button>
       </div>
-      <div className="mb-12">
-        <SearchBar />
-      </div>
+
       <div className="grid md:grid-cols-3 sm:grid-col-span-1 gap-4">
         {rooms.map((room) => {
           return <RoomCard key={room.id} room={room} />;

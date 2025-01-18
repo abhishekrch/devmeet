@@ -48,12 +48,16 @@ function AccountDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => signOut({
-            callbackUrl: "/",
-          })}>
-            <LogOutIcon className="mr-2" />
-            Sign Out
-          </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() =>
+            signOut({
+              callbackUrl: "/",
+            })
+          }
+        >
+          <LogOutIcon className="mr-2" />
+          Sign Out
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
@@ -70,11 +74,17 @@ export function Header() {
           </Link>
         </div>
 
+        <nav>
+          <Link className="hover:underline" href="/your-rooms">
+            Your Rooms
+          </Link>
+        </nav>
+
         <div className="flex items-center space-x-6">
           {session.data && <AccountDropdown />}
           {!session.data && (
             <Button onClick={() => signIn()} variant="link">
-              <LogInIcon className="mr-2" /> 
+              <LogInIcon className="mr-2" />
               Sign In
             </Button>
           )}

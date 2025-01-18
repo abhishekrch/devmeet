@@ -1,4 +1,4 @@
-import { getRoom } from "@/app/data-access/rooms";
+import { getRoom } from "@/data-access/rooms";
 import { Github } from "lucide-react";
 import Link from "next/link";
 import { TagsList } from "@/components/tags-list";
