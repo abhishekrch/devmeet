@@ -19,9 +19,9 @@ export async function editRoomAction(roomData: Omit<Room, "userId">) {
         throw new Error("User not authorized");
     }
     
-    await editRoom({ ...roomData, userId: room.userId });
+    const updatedRoom = await editRoom({ ...roomData, userId: room.userId });
     
     revalidatePath("/your-rooms");
     revalidatePath(`/edit-room/${roomData.id}`);
-    redirect("/your-rooms");
+    return updatedRoom;
 }

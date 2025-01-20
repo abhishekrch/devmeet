@@ -17,6 +17,8 @@ import { Input } from "@/components/ui/input";
 import { editRoomAction } from "./actions";
 import { useParams } from "next/navigation";
 import { Room } from "@/db";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation"; 
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -28,6 +30,8 @@ const formSchema = z.object({
 
 export function EditRoomForm({ room }: { room: Room }) {
   const params = useParams();
+  const { toast } = useToast();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,10 +44,24 @@ export function EditRoomForm({ room }: { room: Room }) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await editRoomAction({
-      id: params.roomId as string,
-      ...values,
-    });
+    try {
+       await editRoomAction({
+        id: params.roomId as string,
+        ...values,
+      });
+      toast({
+        title: "Room Updated",
+        description: "Your room was successfully updated",
+      });
+      router.push("/your-rooms");
+    } catch (error) {
+      console.error("Error updating room:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update the room. Please try again.",
+      });
+    }
+    
   }
 
   return (
