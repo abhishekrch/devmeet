@@ -76,7 +76,7 @@ export function Header() {
           </Link>
         </div>
 
-        <nav className="flex gap-4">
+        <nav className="flex gap-8">
           {isLoggedIn && (
             <>
           <Link className="hover:underline" href="/browse">
