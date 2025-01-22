@@ -6,14 +6,16 @@ import { DevMeet } from "./video-player";
 import { splitTags } from "@/lib/utils";
 import { unstable_noStore } from "next/cache";
 
+type Params = Promise<{ roomId: string }>;
+
 export default async function RoomPage({
-params,
+  params,
 }: {
-  params: { roomId: string };
+  params: Params;
 }) {
-  const roomId = params.roomId;
   unstable_noStore();
-  const room = await getRoom(roomId);
+  const resolvedParams = await params;
+  const room = await getRoom(resolvedParams.roomId);
 
   if (!room) {
     return <div>No Room Found</div>;

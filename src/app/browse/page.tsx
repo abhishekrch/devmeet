@@ -6,13 +6,16 @@ import { RoomCard } from "./room-card";
 import { unstable_noStore } from "next/cache";
 import Image from "next/image";
 
+type SearchParams = Promise<{ search: string }>;
+
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { search: string };
+  searchParams: SearchParams;
 }) {
   unstable_noStore();
-  const rooms = await getRooms(searchParams.search);
+  const params = await searchParams;
+  const rooms = await getRooms(params.search);
 
   return (
     <main className="min-h-screen p-16">
@@ -33,10 +36,10 @@ export default async function Home({
       {rooms.length === 0 && (
         <div className="flex flex-col gap-4 justify-center items-center mt-24">
           <Image
-          src="/no-data-found.svg"
-          width="200"
-          height="200"
-          alt="no data image"
+            src="/no-data-found.svg"
+            width="200"
+            height="200"
+            alt="no data image"
           />
           <h2 className="text-2xl">
             No Rooms Yet, but you can create one
